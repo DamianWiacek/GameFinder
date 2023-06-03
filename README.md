@@ -29,10 +29,8 @@ BEGIN
            ([UserEmailAddress]
            ,[Subject]
            ,[Message]
-           ,[IsSent]
-           ,[UserId])
-		   select i.Email, 'Greetings from GameFinder Team', 'Welcome to GameFinder, we hope you will find lot of games here!',0, i.UserId
+           ,[IsSent])
+		   select i.Email, 'Greetings from GameFinder Team', 'Welcome to GameFinder, we hope you will find lot of games here!',0
     
     FROM inserted i;
-END;
 ```
