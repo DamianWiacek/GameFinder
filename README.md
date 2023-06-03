@@ -33,4 +33,30 @@ BEGIN
 		   select i.Email, 'Greetings from GameFinder Team', 'Welcome to GameFinder, we hope you will find lot of games here!',0
     
     FROM inserted i;
+    
+    
+    
+    
+    
+    SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE p_RemoveSentEmails
+
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	Delete EMail where IsSent = 1
+END
+GO
 ```
