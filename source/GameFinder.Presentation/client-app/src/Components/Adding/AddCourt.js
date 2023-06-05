@@ -4,6 +4,7 @@ import {useState} from "react";
 import api from '../../api/GameFinder'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from "react-router-dom";
 
 function AddCourt() {
     const [city, setCity] = useState('');
@@ -11,7 +12,8 @@ function AddCourt() {
     const [postalCode, setPostalCode] = useState('');
     const [courtType, setCourtType] = useState('');
     const token = JSON.parse(localStorage.getItem('token'));
-    
+    const navigate = useNavigate();
+
     const handleSubmit = async (e) => {
       e.preventDefault();
         try{
@@ -29,6 +31,7 @@ function AddCourt() {
                     'Authorization' : `Bearer ${token}`}
                 }                     
             );  
+            navigate("/");
         }        
         catch(error){
           toast.error("Coś poszło nie tak")
