@@ -28,7 +28,7 @@ namespace GameFinder.Application.Features.GameService.Commands
                 request.newGameDto.Start,
                 request.newGameDto.PredictedEnd,
                 request.newGameDto.CourtId);
-
+            if(!(DateTime.Compare(newGame.PredictedEnd, newGame.Start) > 0)) throw new Exception("Wrong date input");
             await _dbContext.Game.AddAsync(newGame);
             await _dbContext.SaveChangesAsync();
             return newGame.GameId;           

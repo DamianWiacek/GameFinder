@@ -2,7 +2,9 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {useState} from "react";
 import api from '../../api/GameFinder'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from "react-router-dom";
 
 function AddCourt() {
     const [city, setCity] = useState('');
@@ -10,9 +12,11 @@ function AddCourt() {
     const [postalCode, setPostalCode] = useState('');
     const [courtType, setCourtType] = useState('');
     const token = JSON.parse(localStorage.getItem('token'));
+    const navigate = useNavigate();
+
     const handleSubmit = async (e) => {
+      e.preventDefault();
         try{
-           console.log(token)
             const response = await api.post('/AddCourt',
             {
                 newCourtDto: {
@@ -27,8 +31,10 @@ function AddCourt() {
                     'Authorization' : `Bearer ${token}`}
                 }                     
             );  
+            navigate("/");
         }        
         catch(error){
+          toast.error("Coś poszło nie tak")
             console.log(error);
         }
     }
@@ -50,11 +56,12 @@ function AddCourt() {
       </Form.Group>
       <Form.Group className="mb-3" controlId="courtType">
         <Form.Label>Court Type</Form.Label>
-        <Form.Control value={courtType} onChange={(e) => setCourtType(e.target.value)} type="text" placeholder="Court Type" />
+        <Form.Control value={courtType} onChange={(e) => setCourtType(e.target.value)} type="text" placeholder="1 or 2" />
       </Form.Group>   
       <Button variant="primary" type="submit">
         Submit
       </Button>
+      <ToastContainer />
     </Form>
     </div>
   );

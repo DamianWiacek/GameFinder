@@ -5,6 +5,7 @@ using GameFinder.Application.Features.GameService.Commands;
 using GameFinder.Application.Models;
 using GameFinder.Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,7 +33,14 @@ namespace GameFinder.Presentation.Controllers
             var result = await _mediator.Send(command);
             return Ok(result);
         }
+        [HttpGet("/GetAllGamesFromQuery")]
+        public async Task<IActionResult> GetAllGamesFromQuery([FromQuery] GetAllGamesQueryCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
         [HttpPost("/AddGame")]
+        [Authorize]
         public async Task<IActionResult> AddGame([FromBody] AddGameCommand command)
         {
             var result = await _mediator.Send(command);

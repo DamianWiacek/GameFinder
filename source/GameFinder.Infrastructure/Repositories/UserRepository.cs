@@ -33,6 +33,10 @@ namespace GameFinder.Infrastructure.Repositories
         {
             return await _dbContext.User.Include(user => user.RoleRole).FirstOrDefaultAsync(x => x.Email == email);          
         }
+        public async Task<User> GetUserById(int id)
+        {
+            return await _dbContext.User.Include(user => user.RoleRole).FirstOrDefaultAsync(x => x.UserId == id);
+        }
         public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             return await _dbContext.SaveChangesAsync(cancellationToken);

@@ -1,39 +1,45 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import {useState} from "react";
+import { useState } from "react";
 import api from '../../api/GameFinder'
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Login() {
-    const [password, setPwd] = useState('');
-    const [email, setEmail] = useState('');
-    const [userDetails, setUserDetails] = useState([]);
-    const navigate = useNavigate();
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-        try{
-            const response = await api.post('/Login',
-            {
-                user: {
-                  email: email,
-                  password: password
-                }},
-                {
-                    headers: { 'Content-Type': 'application/json' }
-                }              
-            ); 
-            const token = JSON.stringify(response.data.token);
-            const userId = JSON.stringify(response.data.userId);
-      
-            localStorage.setItem('token', token);
-            localStorage.setItem('userId', userId);
+  const [password, setPwd] = useState('');
+  const [email, setEmail] = useState('');
+  const navigate = useNavigate();
 
-            navigate("/")
-        }        
-        catch(error){
-            console.log(error);
-        }     
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await api.post(
+        '/Login',
+        {
+          user: {
+            email: email,
+            password: password
+          }
+        },
+        {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true
+        }
+      );
+
+      /// save user data
+      const token = JSON.stringify(response.data.token);
+      const userId = JSON.stringify(response.data.userId);
+      localStorage.setItem('token', token);
+      localStorage.setItem('userId', userId);
+
+      navigate("/");
+    } catch (error) {   
+      toast.error("Niepoprawne dane logowania")  
+      console.log(error);
     }
+  }
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -49,7 +55,9 @@ function Login() {
       <Button variant="primary" type="submit">
         Submit
       </Button>
+      <ToastContainer />
     </Form>
+    
   );
 }
 

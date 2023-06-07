@@ -14,6 +14,7 @@ namespace GameFinder.Domain.Repositories
         Task<List<User>> GetAllUsers();
         Task<bool> FindUserByEmail(string email);
         Task<User> GetUserByEmail(string email);
+        Task<User> GetUserById(int id);
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

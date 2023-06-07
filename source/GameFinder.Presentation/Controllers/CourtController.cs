@@ -41,7 +41,7 @@ namespace GameFinder.Presentation.Controllers
         }
 
         [HttpPost("/AddCourt")]
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> AddCourt([FromBody] CreateCourtCommand command)
         {
             var result = await _mediator.Send(command);

@@ -25,7 +25,17 @@ namespace GameFinder.Infrastructure.Repositories
         }
         public async Task<List<Game>> GetAllGamesFromCourt(int courtId)
         {
-            var result = await _dbContext.Game.Include(game => game.Court).ThenInclude(court => court.Address).Where(x => x.CourtId == courtId).ToListAsync();
+            var result = await _dbContext.Game.Where(x => x.CourtId == courtId).ToListAsync();
+            return result;
+        }
+        public async Task<List<Game>> GetAllGamesQuery(string query)
+        {
+            var result = await _dbContext.Game
+            .Where(g =>
+            g.Court.Address.City.Contains(query) ||
+            g.Court.Address.PostalCode.Contains(query) ||
+            g.Court.Address.Street.Contains(query))
+            .ToListAsync();
             return result;
         }
         public async Task<int> AddGame(Game newGame)

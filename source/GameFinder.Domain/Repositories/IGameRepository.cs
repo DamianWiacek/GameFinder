@@ -15,5 +15,6 @@ namespace GameFinder.Domain.Repositories
         Task<List<Game>> GetAllGames();
         Task<List<Game>> GetAllGamesFromCourt(int courtId);
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+        Task<List<Game>> GetAllGamesQuery(string query);
     }
 }

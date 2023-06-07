@@ -3,6 +3,8 @@ import Form from 'react-bootstrap/Form';
 import {useState} from "react";
 import api from '../../api/GameFinder'
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Register() {
     const navigate = useNavigate();
@@ -13,6 +15,7 @@ function Register() {
     const [phone, setPhone] = useState('');
     const [birthdate, setBirthDate] = useState('');
     const [role, setRole] = useState('');
+    
     const handleSubmit = async (e) => {
       e.preventDefault();
         try{
@@ -34,6 +37,7 @@ function Register() {
             navigate("/login");
         }        
         catch(error){
+          toast.error("Użytkownik z tym emailem już istnieje lub coś poszło nie tak") 
             console.log(error);
         }
     }
@@ -73,6 +77,7 @@ function Register() {
       <Button variant="primary" type="submit">
         Submit
       </Button>
+      <ToastContainer />
     </Form>
     </div>
   );

@@ -2,6 +2,7 @@
 using GameFinder.Domain.Entities;
 using GameFinder.Domain.Repositories;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -65,7 +66,7 @@ namespace GameFinder.Application.Features.Users.Commands
               claims,
               expires: DateTime.Now.AddMinutes(15),
               signingCredentials: credentials);
-
+            
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
