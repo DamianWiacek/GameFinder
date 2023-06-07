@@ -2,7 +2,10 @@
 using GameFinder.Domain.Repositories;
 using GameFinder.Infrastructure.Persistance;
 using GameFinder.Infrastructure.Repositories;
+using GameFinder.Infrastructure.Services.ScopedService;
+using GameFinder.Presentation.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +25,9 @@ namespace GameFinder.Infrastructure
             services.AddScoped<IGameRepository, GameRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IGameDetailsRepository, GameDetailsRepository>();
+            services.AddScoped<IEmailRepository, EmailRepository>();
+            //services.AddHostedService<BackgroundEmailService>();
+            //services.AddScoped<IScopedProcessingService,ScopedEmailService>();
             return services;
         }
     }

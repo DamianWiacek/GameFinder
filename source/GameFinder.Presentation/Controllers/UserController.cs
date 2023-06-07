@@ -24,7 +24,7 @@ namespace GameFinder.Presentation.Controllers
         }
         [HttpPost("/Register")]
         public async Task<IActionResult> Register([FromBody] RegisterCommand command)
-        {
+            {
             var result = await _mediator.Send(command);
             return Ok(result);
         }
@@ -35,7 +35,7 @@ namespace GameFinder.Presentation.Controllers
             return Ok(result);
         }
         [HttpGet("/GetAllUsers")]
-        public async Task<IActionResult> Login([FromQuery] GetAllUsersCommand command)
+        public async Task<IActionResult> GetAllUsers([FromQuery] GetAllUsersCommand command)
         {
             var result = await _mediator.Send(command);
             return Ok(result);

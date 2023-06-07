@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameFinder.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230408113954_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230603103835_UserConstrainRemovedFromEmail")]
+    partial class UserConstrainRemovedFromEmail
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -71,6 +71,34 @@ namespace GameFinder.Infrastructure.Migrations
                     b.ToTable("Court");
                 });
 
+            modelBuilder.Entity("GameFinder.Domain.Entities.EMail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("IsSent")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserEmailAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EMail");
+                });
+
             modelBuilder.Entity("GameFinder.Domain.Entities.Game", b =>
                 {
                     b.Property<int>("GameId")
@@ -82,7 +110,7 @@ namespace GameFinder.Infrastructure.Migrations
                     b.Property<int>("CourtId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("PrecictedEnd")
+                    b.Property<DateTime>("PredictedEnd")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("SportId")
@@ -214,6 +242,10 @@ namespace GameFinder.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -246,7 +278,7 @@ namespace GameFinder.Infrastructure.Migrations
             modelBuilder.Entity("GameFinder.Domain.Entities.Game", b =>
                 {
                     b.HasOne("GameFinder.Domain.Entities.Court", "Court")
-                        .WithMany()
+                        .WithMany("Games")
                         .HasForeignKey("CourtId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -290,6 +322,11 @@ namespace GameFinder.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("RoleRole");
+                });
+
+            modelBuilder.Entity("GameFinder.Domain.Entities.Court", b =>
+                {
+                    b.Navigation("Games");
                 });
 #pragma warning restore 612, 618
         }

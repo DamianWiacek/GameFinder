@@ -26,7 +26,7 @@ namespace GameFinder.Domain.Entities
         }
 
         /// <summary>
-        /// Create new instance of Address entity
+        /// Create new instance of Address
         /// </summary>
         /// <param name="name"></param>
         public static Address New(string city, string street, string postalCode) => new Address(city, street, postalCode);

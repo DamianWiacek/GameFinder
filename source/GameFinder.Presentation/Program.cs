@@ -1,6 +1,7 @@
 using GameFinder.Application;
 using GameFinder.Application.Features.GameService;
 using GameFinder.Infrastructure;
+using GameFinder.Presentation.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -14,6 +15,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddInfrastructure();
 builder.Services.AddApplication();
 builder.Services.AddSwaggerGen();
+
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -31,8 +34,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 var app = builder.Build();
 
 app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod()
-.SetIsOriginAllowed(origin => true).AllowCredentials());
-
+.AllowAnyOrigin());
+    
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

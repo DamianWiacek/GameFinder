@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GameFinder.Infrastructure.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -81,6 +81,7 @@ namespace GameFinder.Infrastructure.Migrations
                     Birthday = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RoleId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -103,7 +104,7 @@ namespace GameFinder.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SportId = table.Column<int>(type: "int", nullable: false),
                     Start = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PrecictedEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PredictedEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CourtId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameFinder.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230408121924_passwordFix")]
-    partial class passwordFix
+    [Migration("20230602201503_Emails")]
+    partial class Emails
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -71,6 +71,39 @@ namespace GameFinder.Infrastructure.Migrations
                     b.ToTable("Court");
                 });
 
+            modelBuilder.Entity("GameFinder.Domain.Entities.EMail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("IsSent")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserEmailAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("EMail");
+                });
+
             modelBuilder.Entity("GameFinder.Domain.Entities.Game", b =>
                 {
                     b.Property<int>("GameId")
@@ -82,7 +115,7 @@ namespace GameFinder.Infrastructure.Migrations
                     b.Property<int>("CourtId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("PrecictedEnd")
+                    b.Property<DateTime>("PredictedEnd")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("SportId")
@@ -247,10 +280,21 @@ namespace GameFinder.Infrastructure.Migrations
                     b.Navigation("Address");
                 });
 
+            modelBuilder.Entity("GameFinder.Domain.Entities.EMail", b =>
+                {
+                    b.HasOne("GameFinder.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("GameFinder.Domain.Entities.Game", b =>
                 {
                     b.HasOne("GameFinder.Domain.Entities.Court", "Court")
-                        .WithMany()
+                        .WithMany("Games")
                         .HasForeignKey("CourtId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -294,6 +338,11 @@ namespace GameFinder.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("RoleRole");
+                });
+
+            modelBuilder.Entity("GameFinder.Domain.Entities.Court", b =>
+                {
+                    b.Navigation("Games");
                 });
 #pragma warning restore 612, 618
         }
