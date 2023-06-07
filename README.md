@@ -60,3 +60,6 @@ BEGIN
 END
 GO
 ```
+# Autorzy
+-Damian Wiącek
+-Oliwier Wojewoda
