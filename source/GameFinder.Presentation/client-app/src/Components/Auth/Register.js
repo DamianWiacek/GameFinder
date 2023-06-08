@@ -15,6 +15,7 @@ function Register() {
     const [phone, setPhone] = useState('');
     const [birthdate, setBirthDate] = useState('');
     const [role, setRole] = useState('');
+    const [pesel, setPesel] = useState('');
     
     const handleSubmit = async (e) => {
       e.preventDefault();
@@ -28,7 +29,8 @@ function Register() {
                   surname: surname,
                   phone: phone,
                   birthday: birthdate,
-                  roleId: role
+                  roleId: role,
+                  pesel: pesel
                 }},
                 {
                     headers: { 'Content-Type': 'application/json' }
@@ -73,6 +75,10 @@ function Register() {
       <Form.Group className="mb-3" controlId="role">
         <Form.Label>Role</Form.Label>
         <Form.Control value={role} onChange={(e) => setRole(e.target.value)} type="text" placeholder="Choose 1 or 2" />
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="role">
+        <Form.Label>Pesel</Form.Label>
+        <Form.Control value={pesel} onChange={(e) => setPesel(e.target.value)} type="text" placeholder="Enter pesel" />
       </Form.Group>
       <Button variant="primary" type="submit">
         Submit
