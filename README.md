@@ -92,6 +92,28 @@ BEGIN
 
     RETURN @result;
 END;
+
+
+
+CREATE FUNCTION dbo.f_ValidateDateOfBirth (@dateOfBirth DATE)
+RETURNS BIT
+AS
+BEGIN
+    DECLARE @currentDate DATE = GETDATE();
+    DECLARE @minimumAge INT = 8; -- Minimalny wiek (lata)
+    DECLARE @maximumAge INT = 120; -- Maksymalny wiek (lata)
+
+    IF @dateOfBirth IS NULL
+        RETURN 0;
+
+    IF @dateOfBirth > DATEADD(YEAR, -@minimumAge, @currentDate)
+        RETURN 0;
+
+    IF @dateOfBirth < DATEADD(YEAR, -@maximumAge, @currentDate)
+        RETURN 0;
+
+    RETURN 1;
+END;
 ```
 # Autorzy
 - Damian Wiącek
