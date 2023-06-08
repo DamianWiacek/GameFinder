@@ -114,6 +114,40 @@ BEGIN
 
     RETURN 1;
 END;
+
+
+CREATE TRIGGER tr_ValidateUser
+ON dbo.użytkownicy
+AFTER INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @userId INT;
+    DECLARE @dateOfBirth DATE;
+    DECLARE @pesel VARCHAR(11);
+
+    SELECT @userId = inserted.Id,
+           @dateOfBirth = inserted.data_urodzenia,
+           @pesel = inserted.pesel
+    FROM inserted;
+
+    -- Sprawdzenie daty urodzenia
+    IF dbo.ValidateDateOfBirth(@dateOfBirth) = 0
+    BEGIN
+        RAISERROR ('Nieprawidłowa data urodzenia', 16, 1);
+        DELETE FROM dbo.użytkownicy WHERE Id = @userId;
+        RETURN;
+    END;
+
+    -- Sprawdzenie numeru PESEL
+    IF dbo.ValidatePESEL(@pesel) = 0
+    BEGIN
+        RAISERROR ('Nieprawidłowy numer PESEL', 16, 1);
+        DELETE FROM dbo.użytkownicy WHERE Id = @userId;
+        RETURN;
+    END;
+END;
 ```
 # Autorzy
 - Damian Wiącek
