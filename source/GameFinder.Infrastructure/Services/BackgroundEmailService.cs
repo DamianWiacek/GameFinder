@@ -23,6 +23,7 @@ namespace GameFinder.Presentation.Services
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            
             while (!stoppingToken.IsCancellationRequested)
             {
                 await DoWorkAsync(stoppingToken);
@@ -32,14 +33,14 @@ namespace GameFinder.Presentation.Services
         private async Task DoWorkAsync(CancellationToken stoppingToken)
         {
            
-            using (IServiceScope scope = _serviceProvider.CreateScope())
-            {
-                IScopedProcessingService scopedProcessingService =  
-                    scope.ServiceProvider.GetRequiredService<IScopedProcessingService>();
+                using (IServiceScope scope = _serviceProvider.CreateScope())
+                {
+                    IScopedProcessingService scopedProcessingService =
+                        scope.ServiceProvider.GetRequiredService<IScopedProcessingService>();
 
-                await scopedProcessingService.DoWorkAsync(stoppingToken);
-
-            }
+                    await scopedProcessingService.DoWorkAsync(stoppingToken);
+                }
+            
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FluentValidation.Results;
 using GameFinder.Domain.Entities;
 using GameFinder.Domain.Repositories;
 using GameFinder.Infrastructure.Persistance;
@@ -22,7 +23,8 @@ namespace GameFinder.Infrastructure.Repositories
         public async Task<List<EMail>> GetAllUnsentEmails() 
         {  
             await _dbContext.SaveChangesAsync();
-           return await _dbContext.EMail.Where(e => !e.IsSent).ToListAsync();
+            return await _dbContext.EMail.Where(x=>x.IsSent).ToListAsync(); 
+            
         }
 
         public async Task RemoveSentEmails()

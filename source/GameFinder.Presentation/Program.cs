@@ -34,8 +34,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 var app = builder.Build();
 
 app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod()
-.AllowAnyOrigin());
-    
+.SetIsOriginAllowed(origin => origin.StartsWith("http://localhost:3000")).AllowCredentials());
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

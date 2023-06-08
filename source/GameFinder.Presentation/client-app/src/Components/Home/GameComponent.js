@@ -29,8 +29,9 @@ function GameComponent() {
   const [selectedGameTypeName, setSelectedGameTypeName] = useState("Select Sport");
   const token = JSON.parse(localStorage.getItem('token'));
 
-  const handleGameTypeSelect = (eventKey) => {
-    const sportId = parseInt(eventKey); // Convert eventKey to an integer
+    const handleGameTypeSelect = (eventKey) => {
+
+    const sportId = parseInt(eventKey) || 0; // Convert eventKey to an integer
     const sportName = getSportName(sportId); // Get the sport name based on the selected event key
     setSelectedGameType(sportId);
     setSelectedGameTypeName(sportName); // Update the selected sport name
@@ -133,13 +134,14 @@ function GameComponent() {
     const addressesRes = await Promise.all(filteredGames.map(game => FindAddress(game.courtId)));
     setAddresses(addressesRes);
 
-    if (city) {
+      if (city) {
+          console.log(city);
       filteredGames = filteredGames.filter((game, index) => {
         return addressesRes[index] && addressesRes[index].city === city;
       });
-    }
-
-    if (gameType) {
+      }
+      console.log(gameType);
+      if (gameType && gameType != 0) {
       filteredGames = filteredGames.filter(game => String(game.sportId) === gameType);
     }
 

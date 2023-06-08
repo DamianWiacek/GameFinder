@@ -23,5 +23,7 @@ namespace GameFinder.Application.Models
         public string Phone { get;  set; }
         [Required]
         public int RoleId { get; set; }
+        [Required]
+        public string Pesel { get; set; }
     }
 }

@@ -15,13 +15,14 @@ namespace GameFinder.Domain.Entities
         public string Name { get;  set;}
         public string Surname { get;  set;}
         public DateTime Birthday { get;  set; }
-        [ForeignKey("UserEmailAddress")]
         public string Email { get;  set;}
         public byte[] PasswordHash { get;  set;}
         public byte[] PasswordSalt { get; set; }
         public string Phone { get;  set;}
         public int RoleId { get;  set; }
         public virtual Role RoleRole { get;  set; }
+        public string Pesel { get; set; }
+       
 
     }
 }

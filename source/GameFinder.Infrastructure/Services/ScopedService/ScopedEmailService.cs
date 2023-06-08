@@ -17,6 +17,7 @@ namespace GameFinder.Infrastructure.Services.ScopedService
         }
         public async Task DoWorkAsync(CancellationToken stoppingToken)
         {
+            
             while (!stoppingToken.IsCancellationRequested)
             {
 
@@ -28,7 +29,7 @@ namespace GameFinder.Infrastructure.Services.ScopedService
 
                 await _emailRepository.RemoveSentEmails();
                 await _emailRepository.SaveChangesAsync();
-                await Task.Delay(25000).WaitAsync(stoppingToken);
+                await Task.Delay(3000).WaitAsync(stoppingToken);
             }
         }
     }

@@ -39,7 +39,8 @@ namespace GameFinder.Application.Features.Users.Commands
                 PasswordHash = passwordHash,
                 Phone = request.newUser.Phone,
                 RoleId = request.newUser.RoleId,
-                PasswordSalt = passwordSalt
+                PasswordSalt = passwordSalt,
+                Pesel  = request.newUser.Pesel
             };
             await _userRepository.Register(user);
             await _userRepository.SaveChangesAsync();
