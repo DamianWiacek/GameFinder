@@ -10,7 +10,9 @@ Application created to help find games in your city.
 
 # Database Structure
 
-![erd](https://user-images.githubusercontent.com/109426665/229372834-38826ebc-4e13-40e5-a497-fa600f431c4e.png)
+
+![image](https://github.com/DamianWiacek/GameFinder/assets/109426665/b42c71fa-26f4-48c6-9057-df6df888a087)
+
 
 ```
 CREATE TRIGGER trg_Welcome_User_Mail
