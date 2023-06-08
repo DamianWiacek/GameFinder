@@ -54,7 +54,45 @@ BEGIN
 	Delete EMail where IsSent = 1
 END
 GO
+
+
+CREATE FUNCTION dbo.f_PeselValidate (@pesel VARCHAR(11))
+RETURNS BIT
+AS
+BEGIN
+    DECLARE @result BIT;
+    DECLARE @sum INT = 0;
+
+    IF LEN(@pesel) <> 11
+    BEGIN
+        SET @result = 0;
+    END
+    ELSE
+    BEGIN
+        SET @sum =
+            CAST(SUBSTRING(@pesel, 1, 1) AS INT) * 1 +
+            CAST(SUBSTRING(@pesel, 2, 1) AS INT) * 3 +
+            CAST(SUBSTRING(@pesel, 3, 1) AS INT) * 7 +
+            CAST(SUBSTRING(@pesel, 4, 1) AS INT) * 9 +
+            CAST(SUBSTRING(@pesel, 5, 1) AS INT) * 1 +
+            CAST(SUBSTRING(@pesel, 6, 1) AS INT) * 3 +
+            CAST(SUBSTRING(@pesel, 7, 1) AS INT) * 7 +
+            CAST(SUBSTRING(@pesel, 8, 1) AS INT) * 9 +
+            CAST(SUBSTRING(@pesel, 9, 1) AS INT) * 1 +
+            CAST(SUBSTRING(@pesel, 10, 1) AS INT) * 3;
+
+        SET @sum = @sum % 10;
+        IF @sum = 0
+        BEGIN
+            SET @sum = 10;
+        END;
+
+        SET @result = CASE WHEN (10 - @sum) = CAST(SUBSTRING(@pesel, 11, 1) AS INT) THEN 1 ELSE 0 END;
+    END;
+
+    RETURN @result;
+END;
 ```
 # Autorzy
--Damian Wiącek
--Oliwier Wojewoda
+- Damian Wiącek
+- Oliwier Wojewoda
