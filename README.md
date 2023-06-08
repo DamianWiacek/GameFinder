@@ -133,7 +133,7 @@ BEGIN
     FROM inserted;
 
     -- Sprawdzenie daty urodzenia
-    IF dbo.ValidateDateOfBirth(@dateOfBirth) = 0
+    IF dbo.f_ValidateDateOfBirth(@dateOfBirth) = 0
     BEGIN
         RAISERROR ('Nieprawidłowa data urodzenia', 16, 1);
         DELETE FROM dbo.użytkownicy WHERE Id = @userId;
@@ -141,7 +141,7 @@ BEGIN
     END;
 
     -- Sprawdzenie numeru PESEL
-    IF dbo.ValidatePESEL(@pesel) = 0
+    IF dbo.f_PeselValidate(@pesel) = 0
     BEGIN
         RAISERROR ('Nieprawidłowy numer PESEL', 16, 1);
         DELETE FROM dbo.użytkownicy WHERE Id = @userId;
