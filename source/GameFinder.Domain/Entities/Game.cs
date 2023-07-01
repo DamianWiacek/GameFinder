@@ -19,6 +19,7 @@ namespace GameFinder.Domain.Entities
         public DateTime PredictedEnd { get; private set; }
         public int CourtId { get; private set; }
         public virtual Court Court { get; private set; }
+        public Boolean IsPrivateMatch { get; private set; } = false;
 
         public Game(int sportId, DateTime start, DateTime predictedEnd, int courtId)
         {

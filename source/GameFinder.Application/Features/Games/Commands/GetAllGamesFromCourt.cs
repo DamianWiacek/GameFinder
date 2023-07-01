@@ -21,7 +21,7 @@ namespace GameFinder.Application.Features.Games.Commands
 
         public async Task<List<Game>> Handle(GetAllGamesFromCourtCommand request, CancellationToken cancellationToken)
         {
-            var games = await _gameRepository.GetAllGamesFromCourt(request.courtId);
+            var games = await _gameRepository.GetAllPublicGamesFromCourt(request.courtId);
             if (games == null) throw new ArgumentNullException("There is no games on this court!");
             return games;
         }
