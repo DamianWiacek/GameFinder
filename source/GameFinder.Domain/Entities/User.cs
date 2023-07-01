@@ -15,7 +15,9 @@ namespace GameFinder.Domain.Entities
         public string Name { get;  set;}
         public string Surname { get;  set;}
         public DateTime Birthday { get;  set; }
-        public string Email { get;  set;}
+        public string EmailAddress { get;  set;}
+       
+        public virtual UserInbox UserInbox { get; set; }
         public byte[] PasswordHash { get;  set;}
         public byte[] PasswordSalt { get; set; }
         public string Phone { get;  set;}

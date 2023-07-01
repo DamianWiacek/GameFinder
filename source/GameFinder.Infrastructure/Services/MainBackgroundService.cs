@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 
 namespace GameFinder.Presentation.Services
 {
-    internal class BackgroundEmailService : BackgroundService
+    internal class MainBackgroundService : BackgroundService
     {
         private readonly IServiceProvider _serviceProvider;
 
-        public BackgroundEmailService(IServiceProvider serviceProvider)
+        public MainBackgroundService(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }

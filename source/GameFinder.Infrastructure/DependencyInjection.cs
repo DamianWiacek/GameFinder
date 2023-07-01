@@ -25,9 +25,9 @@ namespace GameFinder.Infrastructure
             services.AddScoped<IGameRepository, GameRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IGameDetailsRepository, GameDetailsRepository>();
-            services.AddScoped<IEmailRepository, EmailRepository>();
-            services.AddHostedService<BackgroundEmailService>();
-            services.AddScoped<IScopedProcessingService,ScopedEmailService>();
+            services.AddScoped<INotificationRepository, NotificationRepository>();
+            services.AddHostedService<MainBackgroundService>();
+            services.AddScoped<IScopedProcessingService,ScopedNotificationService>();
             return services;
         }
     }

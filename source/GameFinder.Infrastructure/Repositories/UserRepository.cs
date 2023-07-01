@@ -26,12 +26,12 @@ namespace GameFinder.Infrastructure.Repositories
         }
         public async Task<bool> FindUserByEmail(string email)
         {
-            var existingUser = await _dbContext.User.FirstOrDefaultAsync(x => x.Email == email);
+            var existingUser = await _dbContext.User.FirstOrDefaultAsync(x => x.EmailAddress == email);
             return existingUser == null ? false : true;
         }
         public async Task<User> GetUserByEmail(string email)
         {
-            return await _dbContext.User.Include(user => user.RoleRole).FirstOrDefaultAsync(x => x.Email == email);          
+            return await _dbContext.User.Include(user => user.RoleRole).FirstOrDefaultAsync(x => x.EmailAddress == email);          
         }
         public async Task<User> GetUserById(int id)
         {
@@ -43,7 +43,7 @@ namespace GameFinder.Infrastructure.Repositories
         }
         public async Task<User> Login(User user)
         {
-            var result = await _dbContext.User.FirstOrDefaultAsync(x =>x.Email==user.Email);
+            var result = await _dbContext.User.FirstOrDefaultAsync(x =>x.EmailAddress==user.EmailAddress);
             return result;
         }
         public async Task<List<User>> GetAllUsers()

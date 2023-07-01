@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace GameFinder.Domain.Repositories
 {
-    public interface IEmailRepository
+    public interface INotificationRepository
     {
-        public Task<List<EMail>> GetAllUnsentEmails();
+        public Task<List<Notification>> GetAllUnsentNotifications();
 
-        public Task RemoveSentEmails();
+        public Task RemoveSentNotifications(IEnumerable<Notification> notifications = null);
 
         public Task SaveChangesAsync();
     }
