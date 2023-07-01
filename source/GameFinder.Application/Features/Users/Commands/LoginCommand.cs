@@ -55,7 +55,7 @@ namespace GameFinder.Application.Features.Users.Commands
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, loggedUser.Name),
-                new Claim(ClaimTypes.Email, loggedUser.Email),
+                new Claim(ClaimTypes.Email, loggedUser.EmailAddress),
                 new Claim("UserId", loggedUser.UserId.ToString()),
                 new Claim(ClaimTypes.Surname, loggedUser.Surname),
                 new Claim(ClaimTypes.Role, loggedUser.RoleRole.Name)

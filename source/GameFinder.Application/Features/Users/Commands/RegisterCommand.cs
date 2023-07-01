@@ -35,7 +35,7 @@ namespace GameFinder.Application.Features.Users.Commands
                 Name = request.newUser.Name,
                 Surname = request.newUser.Surname,
                 Birthday = request.newUser.Birthday,
-                Email = request.newUser.Email,
+                EmailAddress = request.newUser.Email,
                 PasswordHash = passwordHash,
                 Phone = request.newUser.Phone,
                 RoleId = request.newUser.RoleId,
