@@ -18,7 +18,7 @@ namespace GameFinder.Infrastructure.Persistance
         public DbSet<Role> Role { get; set; }
         public DbSet<Sport> Sport { get; set; }
         public DbSet<User> User { get; set; }
-        public DbSet<EMail> EMail { get; set; }
+        public DbSet<Notification> Notification { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -42,23 +42,8 @@ namespace GameFinder.Infrastructure.Persistance
                 new Sport(3, "Volleyball"),
                 new Sport(4, "Tennis"));
 
+            
            
-                
-
-            /*
-            modelBuilder.Entity<EMail>().ToSqlQuery(
-                @"CREATE TRIGGER trg_User_Insert
-                  ON User
-                  AFTER INSERT
-                  AS
-                  BEGIN
-                      SET NOCOUNT ON;
-                  
-                      INSERT INTO Email (Email, Subject, Body)
-                      SELECT i.Email, 'WELCOME TO GameFINDER', 'Greetings from GameFINDER Team'
-                      FROM inserted i;
-                  END;");
-            */
         }
     }
 }
