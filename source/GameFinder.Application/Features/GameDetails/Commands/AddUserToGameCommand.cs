@@ -26,11 +26,10 @@ namespace GameFinder.Application.Features.GameDetails.Commands
             var newGameDetails = new Domain.Entities.GameDetails(
                 request.newGameDetailsDto.GameId,
                 request.newGameDetailsDto.UserId);
-            if(await _gameDetailsRepository.GetGameDetails(newGameDetails.GameId,newGameDetails.UserId) != null)
-            {
+            if(await _gameDetailsRepository.GetGameDetails(newGameDetails.GameId,newGameDetails.UserId) is not null)           
                 throw new Exception("User already in this game");
-            };           
-            await _gameDetailsRepository.AddUserToGame(newGameDetails);
+                       
+            await _gameDetailsRepository.AddSingleAsync(newGameDetails);
             await _gameDetailsRepository.SaveChangesAsync();
             return newGameDetails.GameDetailsId;
         }

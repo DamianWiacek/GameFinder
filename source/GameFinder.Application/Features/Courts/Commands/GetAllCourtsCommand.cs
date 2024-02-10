@@ -19,9 +19,8 @@ namespace GameFinder.Application.Features.Courts.Commands
             _courtRepository = courtRepository;
         }
 
-        public async Task<List<Court>> Handle(GetAllCourtsCommand request, CancellationToken cancellationToken)
-        {
-            return await _courtRepository.GetAllCourts(); ;
-        }
+        public async Task<List<Court>> Handle(GetAllCourtsCommand request, CancellationToken cancellationToken) 
+          => (await _courtRepository.GetAllAsync()).ToList();
+        
     }
 }

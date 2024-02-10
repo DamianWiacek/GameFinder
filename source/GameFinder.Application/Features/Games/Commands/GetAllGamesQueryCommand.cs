@@ -1,6 +1,7 @@
 ﻿using GameFinder.Domain.Entities;
 using GameFinder.Domain.Repositories;
 using MediatR;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,8 +24,9 @@ namespace GameFinder.Application.Features.Games.Commands
         public async Task<List<Game>> Handle(GetAllGamesQueryCommand request, CancellationToken cancellationToken)
         {
             var games = await _gameRepository.GetAllGamesQuery(request.search);
-            if (games == null) throw new ArgumentNullException("No records matching to address");
-            return games;
+            if (games.IsNullOrEmpty())
+                throw new ArgumentNullException("No records matching to address");
+            return games.ToList();
         }
     }
 

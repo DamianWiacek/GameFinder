@@ -33,7 +33,7 @@ namespace GameFinder.Application.Features.Users.Commands
 
         public async Task<LoggedUserDto> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            User loggedUser = await _userRepository.GetUserByEmail(request.user.Email)
+            User loggedUser = await _userRepository.GetUserWithRoleByEmail(request.user.Email)
             ?? throw new Exception("No user with this email");
             if (!VerifyPasswordHash(request.user.Password, loggedUser.PasswordHash, loggedUser.PasswordSalt))
             {

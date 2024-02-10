@@ -20,8 +20,7 @@ namespace GameFinder.Application.Features.Users.Commands
         }
 
         public async Task<List<User>> Handle(GetAllUsersCommand request, CancellationToken cancellationToken)
-        {
-            return await _userRepository.GetAllUsers(); ;
-        }
+        => (await _userRepository.GetAllAsync()).ToList();
+        
     }
 }

@@ -10,49 +10,28 @@ using System.Threading.Tasks;
 
 namespace GameFinder.Infrastructure.Repositories
 {
-    public class GameDetailsRepository : IGameDetailsRepository
+    public class GameDetailsRepository : BaseRepository<GameDetails>,IGameDetailsRepository
     {
-        private readonly ApplicationDbContext _dbContext;
+        public GameDetailsRepository(ApplicationDbContext dbContext) : base(dbContext)
+        {
+        }
 
-        public GameDetailsRepository(ApplicationDbContext applicationDbContext)
-        {
-            _dbContext = applicationDbContext;
-        }
-        public async Task<List<GameDetails>> GetAllUsersInAllGame()
-        {
-            var result = await _dbContext.Game_Details.ToListAsync();
-            return result;
-        }
-        public async Task<List<GameDetails>> GetAllUserGames(int userId)
-        {
-            var result = await _dbContext.Game_Details.Where(x => x.UserId == userId).ToListAsync();
-            return result;
-        }
-        public async Task<List<GameDetails>> GetAllGameUsers(int gameId)
-        {
-            var result = await _dbContext.Game_Details.Where(x => x.GameId == gameId).ToListAsync();
-            return result;
-        }
+        public async Task<IEnumerable<GameDetails>> GetAllUserGames(int userId)
+            => await GetAllAsync(x => x.UserId == userId);
+
+
+        public async Task<IEnumerable<GameDetails>> GetAllGameUsers(int gameId)
+            => await GetAllAsync(g => g.GameId == gameId);
+
         public async Task<GameDetails> GetGameDetails(int gameId, int userId)
-        {
-            var result = await _dbContext.Game_Details.FirstOrDefaultAsync(x => x.GameId == gameId && x.UserId == userId);
-            return result;
-        }
+            => await GetFirstOrDefaultAsync(x => x.GameId == gameId && x.UserId == userId);
+
+
         public async Task<bool> DeleteUserFromGame(GameDetails gameDetails)
-        {
-            _dbContext.Game_Details.Remove(gameDetails);
-            return await Task.FromResult(true);
-        }
+            => await DeleteSingleAsync(gameDetails);
 
         public async Task<int> AddUserToGame(GameDetails gameDetails)
-        {
-            var result = await _dbContext.Game_Details.AddAsync(gameDetails);
-            return result.Entity.GameDetailsId;
-        }
+            => (await AddSingleAsync(gameDetails)).GameDetailsId;
 
-        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            return await _dbContext.SaveChangesAsync(cancellationToken);
-        }
     }
 }

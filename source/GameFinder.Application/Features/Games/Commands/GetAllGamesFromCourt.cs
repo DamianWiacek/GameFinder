@@ -1,6 +1,7 @@
 ﻿using GameFinder.Domain.Entities;
 using GameFinder.Domain.Repositories;
 using MediatR;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,8 +23,9 @@ namespace GameFinder.Application.Features.Games.Commands
         public async Task<List<Game>> Handle(GetAllGamesFromCourtCommand request, CancellationToken cancellationToken)
         {
             var games = await _gameRepository.GetAllPublicGamesFromCourt(request.courtId);
-            if (games == null) throw new ArgumentNullException("There is no games on this court!");
-            return games;
+            if (games.IsNullOrEmpty()) 
+                throw new ArgumentNullException("There is no games on this court!");
+            return games.ToList();
         }
     }
 }

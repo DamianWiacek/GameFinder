@@ -22,10 +22,11 @@ namespace GameFinder.Application.Features.Courts.Commands
         public async Task<bool> Handle(DeleteCourtCommand request, CancellationToken cancellationToken)
         {
             var courtToDelete = await _courtRepository.GetCourtById(request.courtId);
-            if (courtToDelete == null) throw new ArgumentNullException("There is no court with given id!");
-            if (courtToDelete.HasGames()) throw new GamesOnCourtException();
-            var result = await _courtRepository.Delete(courtToDelete);
-            await _courtRepository.SaveChangesAsync(cancellationToken);
+            if (courtToDelete == null) 
+                throw new ArgumentNullException("There is no court with given id!");
+            if (courtToDelete.HasGames()) 
+                throw new GamesOnCourtException();
+            var result = await _courtRepository.DeleteSingleAsync(courtToDelete);
             return result;
         }
     }

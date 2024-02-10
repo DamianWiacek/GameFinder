@@ -10,46 +10,31 @@ using System.Threading.Tasks;
 
 namespace GameFinder.Infrastructure.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : BaseRepository<User>, IUserRepository
     {
-        private readonly ApplicationDbContext _dbContext;
-
-        public UserRepository(ApplicationDbContext applicationDbContext)
+        public UserRepository(ApplicationDbContext dbContext) : base(dbContext)
         {
-            _dbContext = applicationDbContext;
         }
 
-        public async Task<int> Register(User newUser)
-        {
-            var result = await _dbContext.User.AddAsync(newUser);
-            return result.Entity.UserId;
-        }
-        public async Task<bool> FindUserByEmail(string email)
-        {
-            var existingUser = await _dbContext.User.FirstOrDefaultAsync(x => x.EmailAddress == email);
-            return existingUser == null ? false : true;
-        }
-        public async Task<User> GetUserByEmail(string email)
-        {
-            return await _dbContext.User.Include(user => user.RoleRole).FirstOrDefaultAsync(x => x.EmailAddress == email);          
-        }
-        public async Task<User> GetUserById(int id)
-        {
-            return await _dbContext.User.Include(user => user.RoleRole).FirstOrDefaultAsync(x => x.UserId == id);
-        }
-        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            return await _dbContext.SaveChangesAsync(cancellationToken);
-        }
-        public async Task<User> Login(User user)
-        {
-            var result = await _dbContext.User.FirstOrDefaultAsync(x =>x.EmailAddress==user.EmailAddress);
-            return result;
-        }
-        public async Task<List<User>> GetAllUsers()
-        {
-            var result = await _dbContext.User.ToListAsync();
-            return result;
-        }
+        public async Task<bool> UserWithEmailExist(string email)        
+             => (await GetFirstOrDefaultAsync(u => u.EmailAddress == email)) == null 
+                                                                              ? false 
+                                                                              : true;
+            
+        
+        public async Task<User> GetUserWithRoleByEmail(string email)        
+             => await _dbContext.User.Include(user => user.RoleRole)
+                                      .FirstOrDefaultAsync(x => x.EmailAddress == email);          
+        
+        public async Task<User> GetUserWithRoleById(int id)        
+            => await _dbContext.User.Include(user => user.RoleRole)
+                                        .FirstOrDefaultAsync(x => x.UserId == id);
+        
+
+        public async Task<User> Login(User user)        
+            => await GetFirstOrDefaultAsync(u => u.EmailAddress == user.EmailAddress);
+            
+        
+
     }
 }

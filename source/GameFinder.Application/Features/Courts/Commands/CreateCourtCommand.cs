@@ -32,10 +32,7 @@ namespace GameFinder.Application.Features.Courts.Commands
             var newCourt = Court.New(request.newCourtDto.CourtType, address);
 
 
-            var result = await _courtRepository.CourtAddAsync(newCourt);
-            await _courtRepository.SaveChangesAsync(cancellationToken);
-
-            return result;
+            return (await _courtRepository.AddSingleAsync(newCourt)).CourtId;
         }
     }
 

@@ -25,7 +25,7 @@ namespace GameFinder.Application.Features.Users.Commands
 
         public async Task<int> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
-            if (await _userRepository.FindUserByEmail(request.newUser.Email) == true) 
+            if (await _userRepository.UserWithEmailExist(request.newUser.Email)) 
             {
                 throw new Exception("User already exists");
             }
@@ -42,7 +42,7 @@ namespace GameFinder.Application.Features.Users.Commands
                 PasswordSalt = passwordSalt,
                 Pesel  = request.newUser.Pesel
             };
-            await _userRepository.Register(user);
+            await _userRepository.AddSingleAsync(user);
             await _userRepository.SaveChangesAsync();
             return user.UserId;
         }

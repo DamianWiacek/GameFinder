@@ -19,9 +19,8 @@ namespace GameFinder.Application.Features.GameDetails.Commands
         }
 
         public async Task<List<Domain.Entities.GameDetails>> Handle(GetAllGameUsersCommand request, CancellationToken cancellationToken)
-        {
-            var users = await _gameDetailsRepository.GetAllGameUsers(request.gameId);
-            return users;
-        }
+           => (await _gameDetailsRepository.GetAllGameUsers(request.gameId)).ToList();
+                 
+               
     }
 }

@@ -12,48 +12,28 @@ using System.Threading.Tasks;
 
 namespace GameFinder.Infrastructure.Repositories
 {
-    public class GameRepository : IGameRepository
+    public class GameRepository : BaseRepository<Game>, IGameRepository
     {
-        private readonly ApplicationDbContext _dbContext;
-
-        public GameRepository(ApplicationDbContext applicationDbContext)
-        {
-            _dbContext = applicationDbContext;
+        public GameRepository(ApplicationDbContext dbContext) : base(dbContext)
+        {  
         }
-        public async Task<List<Game>> GetAllGames(Expression<Func<Game,Boolean>> predicate = null)
-        {
-            if(predicate == null)
-                return await _dbContext.Game.ToListAsync();
-   
-            return await _dbContext.Game.Where(predicate).ToListAsync();            
-        }
-        public async Task<List<Game>> GetAllPublicGames()
-            => await GetAllGames();
 
-        public async Task<List<Game>> GetAllPublicGamesFromCourt(int courtId)
-            => await GetAllGames(game => !game.IsPrivateMatch
+        public async Task<IEnumerable<Game>> GetAllPublicGames()
+            => await GetAllAsync(g =>!g.IsPrivateMatch);
+
+        public async Task<IEnumerable<Game>> GetAllPublicGamesFromCourt(int courtId)
+            => await GetAllAsync(game => !game.IsPrivateMatch
                                        && game.CourtId == courtId);
 
-        public async Task<List<Game>> GetAllGamesQuery(string query)
-            => await GetAllGames(game =>
+        public async Task<IEnumerable<Game>> GetAllGamesQuery(string query)
+            => await GetAllAsync(game =>
             game.Court.Address.City.Contains(query) ||
             game.Court.Address.PostalCode.Contains(query) ||
             game.Court.Address.Street.Contains(query));
 
-        public async Task<int> AddGame(Game newGame)
-            => (await _dbContext.Game.AddAsync(newGame)).Entity.GameId;
-
-        public async Task<bool> DeleteGame(Game gameToDelete)
-        {
-            _dbContext.Game.Remove(gameToDelete);
-            return await Task.FromResult(true);
-        }
-
         public async Task<Game> GetGameById(int id)       
-           => await _dbContext.Game.FirstOrDefaultAsync(game => game.GameId == id);
+           => await GetFirstOrDefaultAsync(game => game.GameId == id);
         
-        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-           => await _dbContext.SaveChangesAsync(cancellationToken);
         
     }
 }

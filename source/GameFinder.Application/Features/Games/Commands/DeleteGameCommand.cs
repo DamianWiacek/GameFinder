@@ -22,8 +22,10 @@ namespace GameFinder.Application.Features.Games.Commands
         public async Task<bool> Handle(DeleteGameCommand request, CancellationToken cancellationToken)
         {
             var gameToDelete = await _gameRepository.GetGameById(request.gameId);
-            if (gameToDelete == null) throw new ArgumentNullException("There is no game with given id!");
-            var result = await _gameRepository.DeleteGame(gameToDelete);
+            if (gameToDelete == null)
+                throw new ArgumentNullException("There is no game with given id!");
+
+            var result = await _gameRepository.DeleteSingleAsync(gameToDelete);
             await _gameRepository.SaveChangesAsync(cancellationToken);
             return result;
         }

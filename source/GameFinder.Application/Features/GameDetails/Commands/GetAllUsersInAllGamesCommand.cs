@@ -20,9 +20,8 @@ namespace GameFinder.Application.Features.GameDetails.Commands
             _gameDetailsRepository = gameDetailsRepository;
         }
 
-        public async Task<List<Domain.Entities.GameDetails>> Handle(GetAllUsersInAllGamesCommand request, CancellationToken cancellationToken)
-        {
-            return await _gameDetailsRepository.GetAllUsersInAllGame(); ;
-        }
+        public async Task<List<Domain.Entities.GameDetails>> Handle(GetAllUsersInAllGamesCommand request, CancellationToken cancellationToken) 
+            => (await _gameDetailsRepository.GetAllAsync()).ToList();
+        
     }
 }

@@ -40,7 +40,7 @@ namespace GameFinder.Application.Features.Users.Commands
                 throw new InvalidOperationException("Invalid token. UserId claim is missing or invalid.");
             }
 
-            return await _userRepository.GetUserById(userId);
+            return await _userRepository.GetUserWithRoleById(userId);
 
 
         }

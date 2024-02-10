@@ -21,9 +21,8 @@ namespace GameFinder.Application.Features.Games.Commands
             _gameRepository = gameRepository;
         }
 
-        public async Task<List<Game>> Handle(GetAllGamesCommand request, CancellationToken cancellationToken)
-        {
-            return await _gameRepository.GetAllGames(); ;
-        }
+        public async Task<List<Game>> Handle(GetAllGamesCommand request, CancellationToken cancellationToken)        
+            => (await _gameRepository.GetAllAsync()).ToList();
+        
     }
 }

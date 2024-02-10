@@ -13,35 +13,19 @@ using Org.BouncyCastle.Math.EC.Rfc7748;
 
 namespace GameFinder.Infrastructure.Repositories
 {
-    internal class NotificationRepository : INotificationRepository
+    internal class NotificationRepository : BaseRepository<Notification> ,INotificationRepository
     {
-        private readonly ApplicationDbContext _dbContext;
-
-        public NotificationRepository(ApplicationDbContext dbContext)
+        public NotificationRepository(ApplicationDbContext dbContext) : base(dbContext)
         {
-            _dbContext= dbContext;
         }
-        public async Task<List<Notification>> GetAllUnsentNotifications()
-        {
-            return await _dbContext.Notification.Where(n=>!n.IsSent).ToListAsync();
-        }
+        public async Task<IEnumerable<Notification>> GetAllUnsentNotifications()
+            => await GetAllAsync(n => !n.IsSent);
 
-        public async Task RemoveSentNotifications(IEnumerable<Notification> notifications = null)
+        public async Task RemoveSentNotifications()
         {
-            if (notifications == null) 
-            { 
-                _dbContext.Notification.RemoveRange(notifications);
-                return;
-            }
-                
-            notifications = await _dbContext.Notification.Where(n => n.IsSent).ToListAsync();
-            _dbContext.Notification.RemoveRange(notifications);
-         
+            var notifications = await GetAllAsync(n => n.IsSent);
+            await DeleteRangeAsync(notifications);         
         }
 
-        public async Task SaveChangesAsync()
-        {
-            await _dbContext.SaveChangesAsync();
-        }
     }
 }

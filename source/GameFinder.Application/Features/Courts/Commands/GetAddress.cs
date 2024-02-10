@@ -20,9 +20,8 @@ namespace GameFinder.Application.Features.Courts.Commands
         }
 
         public async Task<Address> Handle(GetAddressCommand request, CancellationToken cancellationToken)
-        {
-            var court = await _courtRepository.GetCourtById(request.courtId);
-            return court.Address;
-        }
+            => (await _courtRepository.GetCourtById(request.courtId)).Address;
+            
+        
     }
 }
