@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 
 namespace GameFinder.Domain.Repositories
 {
-    public interface INotificationRepository
+    public interface INotificationRepository : IBaseRepository<Notification>
     {
-        public Task<List<Notification>> GetAllUnsentNotifications();
+        public Task<IEnumerable<Notification>> GetAllUnsentNotifications();
 
-        public Task RemoveSentNotifications(IEnumerable<Notification> notifications = null);
+        public Task RemoveSentNotifications();
 
-        public Task SaveChangesAsync();
     }
 }

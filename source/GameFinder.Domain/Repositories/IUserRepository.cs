@@ -7,14 +7,11 @@ using System.Threading.Tasks;
 
 namespace GameFinder.Domain.Repositories
 {
-    public interface IUserRepository
+    public interface IUserRepository : IBaseRepository<User>
     {
-        Task<int> Register(User newUser);
         Task<User> Login(User user);
-        Task<List<User>> GetAllUsers();
-        Task<bool> FindUserByEmail(string email);
-        Task<User> GetUserByEmail(string email);
-        Task<User> GetUserById(int id);
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+        Task<bool> UserWithEmailExist(string email);
+        Task<User> GetUserWithRoleByEmail(string email);
+        Task<User> GetUserWithRoleById(int id);
     }
 }

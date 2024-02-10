@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace GameFinder.Domain.Repositories
 {
-    public interface ICourtRepository
+    public interface ICourtRepository : IBaseRepository<Court>
     {
-        Task<int> CourtAddAsync(Court newCourt);
         Task<Court> GetCourtById(int id);
-        Task<bool> Delete(Court courtToDelete);
-        Task<List<Court>> GetAllCourts();
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

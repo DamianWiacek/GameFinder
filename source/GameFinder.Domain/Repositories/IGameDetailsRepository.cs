@@ -7,14 +7,11 @@ using System.Threading.Tasks;
 
 namespace GameFinder.Domain.Repositories
 {
-    public interface IGameDetailsRepository
+    public interface IGameDetailsRepository : IBaseRepository<GameDetails>
     {
-        Task<int> AddUserToGame(GameDetails gameDetails);
         Task<bool> DeleteUserFromGame(GameDetails gameDetails);
         Task<GameDetails> GetGameDetails(int gameId, int userId);
-        Task<List<GameDetails>> GetAllGameUsers(int gameId);
-        Task<List<GameDetails>> GetAllUsersInAllGame();
-        Task<List<GameDetails>> GetAllUserGames(int userId);
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+        Task<IEnumerable<GameDetails>> GetAllUserGames(int userId);
+        Task<IEnumerable<GameDetails>> GetAllGameUsers(int gameId);
     }
 }

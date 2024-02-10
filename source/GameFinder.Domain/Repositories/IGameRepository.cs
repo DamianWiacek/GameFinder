@@ -8,14 +8,10 @@ using System.Threading.Tasks;
 
 namespace GameFinder.Domain.Repositories
 {
-    public interface IGameRepository
+    public interface IGameRepository : IBaseRepository<Game>
     {
-        Task<int> AddGame(Game newGame);
         Task<Game> GetGameById(int id);
-        Task<bool> DeleteGame(Game gameToDelete);
-        Task<List<Game>> GetAllGames(Expression<Func<Game, Boolean>> predicate = null);
-        Task<List<Game>> GetAllPublicGamesFromCourt(int courtId);
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
-        Task<List<Game>> GetAllGamesQuery(string query);
+        Task<IEnumerable<Game>> GetAllPublicGamesFromCourt(int courtId);
+        Task<IEnumerable<Game>> GetAllGamesQuery(string query);
     }
 }
